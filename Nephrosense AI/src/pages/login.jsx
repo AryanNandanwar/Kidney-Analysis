@@ -1,7 +1,9 @@
-// src/components/Login.js
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import NavigationBar from '../components/navbar';
+import Footer from '../components/footer';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -11,30 +13,42 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     const user = { email, password };
-
+  
     try {
-      const response = await fetch('http://localhost:5000/api/login', {
+      const response = await fetch('http://localhost:8000/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(user),
       });
-
+  
       if (response.ok) {
-        navigate('/dashboard');
+        const data = await response.json();  // Extract the token from the response JSON
+        localStorage.setItem('token', data.token);  // Store the token
+        navigate('/dashboard');  // Redirect to the dashboard
       } else {
         const errorData = await response.json();
         setErrorMessage(errorData.message || 'Invalid credentials');
+        setTimeout(() => {
+          setErrorMessage('');
+        }, 5000);
       }
     } catch (error) {
       setErrorMessage('An error occurred. Please try again.');
+      setTimeout(() => {
+        setErrorMessage('');
+      }, 5000);
     }
   };
+  
 
   return (
+    <>
+    <NavigationBar />
+
     <div className="bg-gray-100 flex justify-center items-center h-screen">
       {/* Left: Image */}
       <div className="w-1/2 h-screen hidden lg:block">
@@ -97,6 +111,8 @@ function Login() {
         </div>
       </div>
     </div>
+    <Footer/>
+    </>
   );
 }
 

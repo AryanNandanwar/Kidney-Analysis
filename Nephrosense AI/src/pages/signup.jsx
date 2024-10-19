@@ -2,23 +2,25 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import NavigationBar from '../components/navbar';
+import Footer from '../components/footer';
 
 function Signup() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [contactNumber, setContactNumber] = useState('');
+  const [contact, setContact] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newUser = { name, email, password, contactNumber };
+    const newUser = { name, email, password, contact };
 
     try {
       // Replace with your actual API endpoint for signup
-      const response = await fetch('http://localhost:5000/api/signup', {
+      const response = await fetch('http://localhost:8000/api/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -38,6 +40,8 @@ function Signup() {
   };
 
   return (
+    <>
+    <NavigationBar />
     <div className="bg-gray-100 flex justify-center items-center h-screen">
       {/* Left: Image */}
       <div className="w-1/2 h-screen hidden lg:block">
@@ -49,7 +53,7 @@ function Signup() {
       </div>
       {/* Right: Login Form */}
       <div className="lg:p-36 md:p-52 sm:p-20 p-8 w-full lg:w-1/2">
-        <h1 className="text-2xl font-semibold mb-4">Login</h1>
+        <h1 className="text-2xl font-semibold mb-4">Sign Up</h1>
         {errorMessage && <p className="text-red-500">{errorMessage}</p>}
         <form onSubmit={handleSubmit}>
           {/* Email Input */}
@@ -118,7 +122,7 @@ function Signup() {
           </div>
           {/* Login Button */}
           <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md py-2 px-4 w-full">
-            Login
+          Sign Up
           </button>
         </form>
         {/* Sign Up Link */}
@@ -127,6 +131,8 @@ function Signup() {
         </div>
       </div>
     </div>
+    <Footer/>
+    </>
   );
 }
 

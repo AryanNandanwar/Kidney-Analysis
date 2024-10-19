@@ -1,16 +1,23 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
-from bson import ObjectId
+
 from werkzeug.security import generate_password_hash, check_password_hash
+import jwt
+import datetime
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 
+# Access the SECRET_KEY
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 app = Flask(__name__)
 cors = CORS(app, origins="*")
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:aryan158@localhost:5433/flask_database'
-
+app.config['SECRET_KEY'] = SECRET_KEY
 db = SQLAlchemy(app)
 
 
@@ -35,11 +42,22 @@ class TestReport(db.Model):
      hermaturia = db.Column(db.Float, nullable=False)
      oxalate_levels = db.Column(db.Float, nullable=False)
      urine_ph = db.Column(db.Float, nullable=False)
+     blood_pressure = db.Column(db.Float, nullable=False)
+     pyurea = db.Column(db.Float, nullable=False)
     
     
     
 with app.app_context():
     db.create_all()
+    
+def generate_token(user_id):
+    payload = {
+        'user_id': user_id,
+        'exp': datetime.datetime.now() + datetime.timedelta(hours=2),  # Token expiry
+        'iat': datetime.datetime.now()
+    }
+    token = jwt.encode(payload, 'your_secret_key', algorithm='HS256')
+    return token
 
 @app.route('/api/signup', methods=['POST'])
 def signup():
@@ -59,8 +77,18 @@ def signup():
 def login():
     data = request.json
     user = User.query.filter_by(email=data['email']).first()
+    # Check if user exists and password is correct
     if user and check_password_hash(user.password, data['password']):
-        return jsonify({'message': 'Login successful!'})
+        
+        # Generate JWT token
+        token = jwt.encode({
+            'user_id': user.id,  # or any user data you want to include
+            'exp': datetime.datetime.now() + datetime.timedelta(hours=1)  # Token expiration
+        }, SECRET_KEY, algorithm='HS256')
+        # Send the token back to the client
+        return jsonify({'message': 'Login successful!', 'token': token})
+    
+    # If login fails
     return jsonify({'message': 'Invalid email or password!'}), 401
     
 if __name__ == "__main__":
