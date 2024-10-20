@@ -32,19 +32,21 @@ class User(db.Model):
 class TestReport(db.Model):
      id = db.Column(db.Integer, primary_key=True, autoincrement=True)
      user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+     is_kidney_healthy = db.Column(db.Boolean, nullable=False)
      serum_creatinine = db.Column(db.Float, nullable=False)
      gfr = db.Column(db.Float, nullable=False)
      bun = db.Column(db.Float, nullable=False)
      serum_calcium = db.Column(db.Float, nullable=False)
-     ana = db.Column(db.Float, nullable=False)
-     c3_c4 = db.Column(db.Float, nullable=False)
+     ana = db.Column(db.String, nullable=False)
+     c3_c4 = db.Column(db.String, nullable=False)
      protein_in_urea = db.Column(db.Float, nullable=False)
-     hermaturia = db.Column(db.Float, nullable=False)
+     hermaturia = db.Column(db.Boolean, nullable=False)
      oxalate_levels = db.Column(db.Float, nullable=False)
      urine_ph = db.Column(db.Float, nullable=False)
      blood_pressure = db.Column(db.Float, nullable=False)
      pyurea = db.Column(db.Float, nullable=False)
-    
+     gender = db.Column(db.String, nullable=False)
+     age = db.Column(db.Integer, nullable=False)
     
     
 with app.app_context():

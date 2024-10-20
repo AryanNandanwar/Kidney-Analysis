@@ -1,8 +1,18 @@
-
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const NavigationBar = () => {
+  const navigate = useNavigate();
+
+  // Check if the user is logged in by looking for the token in localStorage
+  const isLoggedIn = !!localStorage.getItem('token');
+
+  // Handle Logout
+  const handleLogout = () => {
+    localStorage.removeItem('token');  // Remove the token from localStorage
+    navigate('/login');  // Redirect to the login page after logout
+  };
+
   return (
     <header className="w-dvw absolute top-0 left-1/2 -translate-x-1/2 z-[1000] py-4">
       <div className="max-w-[120rem] text-gray-50 px-6 md:px-8 lg:px-10">
@@ -22,14 +32,27 @@ const NavigationBar = () => {
               <li>
                 <Link to="/dashboard">Dashboard</Link>
               </li>
-              <li><a href="">Qui sommes nous?</a></li>
+              <li><a href="">Technologies</a></li>
               <li><a href="">Plan</a></li>
             </ul>
             <ul className="absolute right-0">
               <li className="relative">
-                <Link to="/login" className="h-10 rounded-lg flex items-center justify-center text-base bg-accent-500 leading-none px-12 uppercase">
-                  Login
-                </Link>
+                {/* Conditionally Render Login or Logout */}
+                {isLoggedIn ? (
+                  <button
+                    onClick={handleLogout}
+                    className="h-10 rounded-lg flex items-center justify-center text-base bg-accent-500 leading-none px-12 uppercase"
+                  >
+                    Logout
+                  </button>
+                ) : (
+                  <Link
+                    to="/login"
+                    className="h-10 rounded-lg flex items-center justify-center text-base bg-accent-500 leading-none px-12 uppercase"
+                  >
+                    Login
+                  </Link>
+                )}
               </li>
             </ul>
           </div>

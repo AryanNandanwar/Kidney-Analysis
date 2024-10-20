@@ -1,8 +1,17 @@
 import React from "react";
 import NavigationBar from "../components/navbar";
 import Footer from "../components/footer";
+import { Button } from "@mui/material";
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');  // Remove token from localStorage
+    navigate('/');  // Redirect to login page
+  };
 
     return (
       <>
@@ -20,19 +29,19 @@ const Dashboard = () => {
     <div className="flex flex-col rounded-lg border border-gray-100 px-4 py-8 text-center">
       <dt className="order-last text-lg font-medium text-gray-500">Glomerular Filtration Rate</dt>
 
-      <dd className="text-4xl font-extrabold text-blue-600 md:text-5xl">$4.8m</dd>
+      <dd className="text-4xl font-extrabold text-blue-600 md:text-5xl">4.8 mL/min</dd>
     </div>
 
     <div className="flex flex-col rounded-lg border border-gray-100 px-4 py-8 text-center">
       <dt className="order-last text-lg font-medium text-gray-500">Serum Creatinine</dt>
 
-      <dd className="text-4xl font-extrabold text-blue-600 md:text-5xl">24</dd>
+      <dd className="text-4xl font-extrabold text-blue-600 md:text-5xl">24 mg/dL</dd>
     </div>
 
     <div className="flex flex-col rounded-lg border border-gray-100 px-4 py-8 text-center">
       <dt className="order-last text-lg font-medium text-gray-500">Blood Urea Nitrogen</dt>
 
-      <dd className="text-4xl font-extrabold text-blue-600 md:text-5xl">86</dd>
+      <dd className="text-4xl font-extrabold text-blue-600 md:text-5xl">86 mg/dL</dd>
     </div>
 
     <div className="flex flex-col rounded-lg border border-gray-100 px-4 py-8 text-center">
@@ -45,7 +54,7 @@ const Dashboard = () => {
     <div className="flex flex-col rounded-lg border border-gray-100 px-4 py-8 text-center">
       <dt className="order-last text-lg font-medium text-gray-500">Serum Calcium</dt>
 
-      <dd className="text-4xl font-extrabold text-blue-600 md:text-5xl">$4.8m</dd>
+      <dd className="text-4xl font-extrabold text-blue-600 md:text-5xl">4.8 mg/dL</dd>
     </div>
 
     <div className="flex flex-col rounded-lg border border-gray-100 px-4 py-8 text-center">
@@ -57,20 +66,20 @@ const Dashboard = () => {
     <div className="flex flex-col rounded-lg border border-gray-100 px-4 py-8 text-center">
       <dt className="order-last text-lg font-medium text-gray-500">Protein in Urea</dt>
 
-      <dd className="text-4xl font-extrabold text-blue-600 md:text-5xl">86</dd>
+      <dd className="text-4xl font-extrabold text-blue-600 md:text-5xl">86 mg/day</dd>
     </div>
 
     <div className="flex flex-col rounded-lg border border-gray-100 px-4 py-8 text-center">
       <dt className="order-last text-lg font-medium text-gray-500">Hermaturea</dt>
 
-      <dd className="text-4xl font-extrabold text-blue-600 md:text-5xl">86k</dd>
+      <dd className="text-4xl font-extrabold text-blue-600 md:text-5xl">86</dd>
     </div>
   </dl>
   <dl className="mt-6 grid grid-cols-1 gap-4 sm:mt-8 sm:grid-cols-2 lg:grid-cols-4">
     <div className="flex flex-col rounded-lg border border-gray-100 px-4 py-8 text-center">
       <dt className="order-last text-lg font-medium text-gray-500">Oxalate levels</dt>
 
-      <dd className="text-4xl font-extrabold text-blue-600 md:text-5xl">$4.8m</dd>
+      <dd className="text-4xl font-extrabold text-blue-600 md:text-5xl">4.8 mg/day</dd>
     </div>
 
     <div className="flex flex-col rounded-lg border border-gray-100 px-4 py-8 text-center">
@@ -88,9 +97,17 @@ const Dashboard = () => {
     <div className="flex flex-col rounded-lg border border-gray-100 px-4 py-8 text-center">
       <dt className="order-last text-lg font-medium text-gray-500">Blood Pressure</dt>
 
-      <dd className="text-4xl font-extrabold text-blue-600 md:text-5xl">86k</dd>
+      <dd className="text-4xl font-extrabold text-blue-600 md:text-5xl">86 mmHg</dd>
     </div>
   </dl>
+  <div className="flex justify-center py-6">
+      <Button 
+        variant="contained" 
+        onClick={handleLogout}
+      >
+        Logout
+      </Button>
+    </div>
 </div>
 <Footer/>
 </>
